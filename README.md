@@ -38,7 +38,7 @@ npm test
 
 Clona el repositorio:
 
-git clone https://github.com/tu_usuario/ci-cd-pipeline-tu-nombre.git
+git clone https://github.com/tu_usuario/ci-cd-pipeline-DeyaneiraRuiz.git
 cd ci-cd-pipeline-DeyaneiraRuiz
 
 Instala las dependencias:
