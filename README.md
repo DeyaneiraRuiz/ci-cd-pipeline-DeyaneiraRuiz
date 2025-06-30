@@ -17,8 +17,11 @@ Si intentas dividir entre 0, el servidor retorna error 400 con mensaje descripti
 ## 📁 Estructura del Proyecto
 
 src/ → Código fuente
+
 tests/ → Pruebas unitarias e integración
+
 .github/workflows/ → Archivos de GitHub Actions
+
 docs/ → Documentación futura
 
 ## ✅ Testing
@@ -29,9 +32,6 @@ El proyecto usa `Jest` y `Supertest`.
 
 ```bash
 npm install
-```
-
-```bash
 npm test
 ```
 ## 👨‍💻 Cómo usar
