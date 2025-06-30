@@ -20,7 +20,7 @@ jobs:
       - name: Restaurar artifact
         uses: actions/download-artifact@v4
         with:
-          name: artifact-de-build
+          name: artifact-de-build-${{ github.run_id }}
           path: staging/
 
       - name: Simular deployment a Staging
