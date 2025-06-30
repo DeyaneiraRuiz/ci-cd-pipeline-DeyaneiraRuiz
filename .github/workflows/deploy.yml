@@ -36,7 +36,7 @@ jobs:
       if: failure()
       run: echo "❌ Ocurrió un error durante el deployment"
 
-        - name: Crear issue si falla deploy
+    - name: Crear issue si falla deploy
       if: failure()
       uses: dacbd/create-issue-action@v1
       with:
