@@ -7,7 +7,10 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    needs: install-and-test  # Este requiere que CI haya pasado
+    needs: install-and-test
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -15,32 +18,32 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
 
       - name: Restaurar artifact
         uses: actions/download-artifact@v4
         with:
-          name: artifact-de-build-${{ github.run_id }}
+          name: artifact-de-build-${{ matrix.node-version }}-${{ github.run_id }}
           path: staging/
 
       - name: Simular deployment a Staging
         run: |
-          echo "Aplicación desplegada exitosamente en entorno staging"
+          echo "Aplicación desplegada exitosamente en entorno staging para Node ${{ matrix.node-version }}"
           cat staging/resultado.txt
 
       - name: Notificación exitosa
         if: success()
-        run: echo "✅ ¡Deploy exitoso a staging!"
+        run: echo "✅ ¡Deploy exitoso a staging para Node ${{ matrix.node-version }}!"
 
       - name: Notificación de error
         if: failure()
-        run: echo "❌ Ocurrió un error durante el deployment"
+        run: echo "❌ Ocurrió un error durante el deployment para Node ${{ matrix.node-version }}"
 
       - name: Crear issue si falla deploy
         if: failure()
         uses: dacbd/create-issue-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          title: 🚨 Fallo en el deploy
+          title: 🚨 Fallo en el deploy Node ${{ matrix.node-version }}
           body: |
-            El deployment a staging falló. Por favor revisar los logs del job.
+            El deployment a staging falló para Node ${{ matrix.node-version }}. Por favor revisar los logs del job.
