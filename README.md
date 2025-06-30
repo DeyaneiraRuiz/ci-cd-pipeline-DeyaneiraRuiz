@@ -17,8 +17,11 @@ Si intentas dividir entre 0, el servidor retorna error 400 con mensaje descripti
 ## 📁 Estructura del Proyecto
 
 src/ → Código fuente
+
 tests/ → Pruebas unitarias e integración
+
 .github/workflows/ → Archivos de GitHub Actions
+
 docs/ → Documentación futura
 
 ## ✅ Testing
@@ -27,7 +30,9 @@ El proyecto usa `Jest` y `Supertest`.
 
 ### Ejecutar tests localmente:
 
+```bash
 npm install
+```bash
 npm test
 
 ## 👨‍💻 Cómo usar
@@ -38,11 +43,11 @@ git clone https://github.com/tu_usuario/ci-cd-pipeline-tu-nombre.git
 cd ci-cd-pipeline-DeyaneiraRuiz
 
 Instala las dependencias:
-
+```bash
 npm install
 
 Ejecuta la aplicación:
-
+```bash
 npm start
 
 Abre en el navegador:
