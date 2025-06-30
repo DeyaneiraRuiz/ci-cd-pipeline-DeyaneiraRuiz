@@ -1,0 +1,46 @@
+name: Deploy Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: install-and-test  # Este requiere que CI haya pasado
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+
+    - name: Restaurar artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: artifact-de-build
+        path: staging/
+
+    - name: Simular deployment a Staging
+      run: |
+        echo "Aplicación desplegada exitosamente en entorno staging"
+        cat staging/resultado.txt
+
+    - name: Notificación exitosa
+      if: success()
+      run: echo "✅ ¡Deploy exitoso a staging!"
+
+    - name: Notificación de error
+      if: failure()
+      run: echo "❌ Ocurrió un error durante el deployment"
+
+        - name: Crear issue si falla deploy
+      if: failure()
+      uses: dacbd/create-issue-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        title: 🚨 Fallo en el deploy
+        body: |
+          El deployment a staging falló. Por favor revisar los logs del job.

@@ -1,0 +1,44 @@
+name: CI Pipeline Avanzado
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  install-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Cache de dependencias
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-${{ matrix.node-version }}-
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - run: npm ci
+    - run: npm test
+
+    - name: Crear carpeta de build
+      run: |
+        mkdir -p build
+        echo "Build generado por CI en Node.js" > build/resultado.txt
+
+    - name: Subir artifact de build
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifact-de-build
+        path: build/
