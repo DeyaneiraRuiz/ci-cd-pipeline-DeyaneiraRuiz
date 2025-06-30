@@ -38,7 +38,7 @@ jobs:
         echo "Build generado por CI en Node.js" > build/resultado.txt
 
     - name: Subir artifact de build
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: artifact-de-build
         path: build/
